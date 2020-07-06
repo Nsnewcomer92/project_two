@@ -6,7 +6,7 @@ Our data sources will be a combination the Skyscanner API (add link), a data bas
 
 Everything will generate on a single dashboard view, with default content loaded upon open. Users will choose a city from a drop down menu, and all data will update as selected. The local information view will populate on an interactive map.  
 
-Beginning Data Sources: 
+Beginning Data Sources: </br>
 -https://rapidapi.com/skyscanner/api/skyscanner-flight-search </br>
 -https://www.visualcrossing.com/weather-data </br>
 -Yelp API
