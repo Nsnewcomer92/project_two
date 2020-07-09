@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Travel Destinations!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>  
-    
+<body>
+ <label for="destinations">Choose a Destination:</label>
+<select name="destinations" id="destinations">
+    <option value="ORD-sky" selected="selected">Chicago</option>
+    <option value="LAS-sky">Las Vegas</option>
+    <option value="LAX-sky">Los Angeles</option>
+    <option value="LGA-sky">New York City</option>
+    <option value="IAD-sky">Washington, DC</option>
+</select>
+<div id= "flightcost"></div>
+<div id= "flightcost2"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>
+<script type="text/javascript" src="app-nate.js"></script>
 </body>
-<script> src="project_two_app.js"</script> 
+
 </html>
