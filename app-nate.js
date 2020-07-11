@@ -13,8 +13,8 @@ $("#submit").click(function (e) {
 	//console.log(inboundformatted)
 	outboundDate = $("#startd").val();
 	console.log("Outbound Date", outboundDate)
-	outboundDate = $("#endd").val();
-	console.log("Inbound Date", outboundDate)
+	inboundDate = $("#endd").val();
+	console.log("Inbound Date", inboundDate)
 
 	var settings = {
 		"async": true,
@@ -26,6 +26,8 @@ $("#submit").click(function (e) {
 			"x-rapidapi-key": "68e3f8273fmshed3dde3b70a9127p1906b3jsn805b2870f3f4"
 		}
 	};
+	//console.log("url", settings.url);
+
 	$.ajax(settings).done(function (response) {
 		console.log("Response", response);
 		var xAxis = [];
