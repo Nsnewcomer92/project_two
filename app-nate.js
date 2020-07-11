@@ -43,8 +43,6 @@ $("#submit").click(function (e) {
 		var trace1 = [
 			{
 				x: xAxis,
-				xaxis: { Title: "Airlines" },
-				yaxis: { Title: "Minimum Price" },
 				y: yAxis,
 				type: 'bar'
 			}
