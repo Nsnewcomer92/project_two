@@ -1,29 +1,39 @@
 // /**
-
+//  * Helper function to select stock data
+//  * Returns an array of values
+//  * index 0 - date
+//  * index 1 - tmin
+//  * index 2 - tavg
+//  * index 3 - tmax
 //  */
 
-// After initial load
-// let city = "Las Vegas";
-// let startd = "2020-07-13";
-// let endd = "2020-07-20";
+// // Submit Button handler
+// function handleSubmit() {
+//   // Prevent the page from refreshing
+//   d3.event.preventDefault();
 
-// Initial load
-let city = "Indianapolis";
-// Today is start date
-let today = new Date();
-let startd = today.toISOString().split("T")[0];
+//   // Select the input value from the form
+//   var stock = d3.select("#stockInput").node().value;
+//   console.log(stock);
 
-// End date is in a week
-let endDate = new Date(today.setDate(today.getDate() + 7));
-let endd = endDate.toISOString().split("T")[0];
+//   // clear the input value
+//   d3.select("#stockInput").node().value = "";
+
+//   // Build the plot with the new stock
+//   buildPlot(stock);
+// }
+
+// function buildPlot(stock) {
+// var apiKey = "YOUR KEY HERE";
+
+let city = "Las Vegas";
+let startd = "2020-07-13";
+let endd = "2020-07-20";
 
 function weatherHistoryPlot(city, startd, endd) {
   const url = "/api/" + city + "/" + startd + "/" + endd;
   console.log(url);
 
-  // Helper function to select data; returns an array of values
-  //  index 0 - date     index 1 - tmin
-  //  index 2 - tavg     index 3 - tmax
   function unpack(rows, index) {
     return rows.map(function (row) {
       return row[index];
@@ -32,10 +42,10 @@ function weatherHistoryPlot(city, startd, endd) {
 
   d3.json(url).then(function (response) {
     // Grab values from the response json object to build the plots
-    let city = response.dataset.city;
+    var city = response.dataset.city;
 
-    let startDate = response.dataset.start_date;
-    let endDate = response.dataset.end_date;
+    var startDate = response.dataset.start_date;
+    var endDate = response.dataset.end_date;
     // Print the names of the columns
     console.log(response.dataset.column_names);
     // Print the data for each day
@@ -43,97 +53,58 @@ function weatherHistoryPlot(city, startd, endd) {
     // var dates = response.dataset.data.map((row) => row[0]);
     var dates = unpack(response.dataset.data, 0);
 
-    let minTemp = unpack(response.dataset.data, 1);
-    let avgTemp = unpack(response.dataset.data, 2);
-    let maxTemp = unpack(response.dataset.data, 3);
+    var minTemp = response.dataset.data.map((row) => row[1]);
+    var avgTemp = response.dataset.data.map((row) => row[2]);
+    var maxTemp = response.dataset.data.map((row) => row[3]);
+    console.log(dates, minTemp, avgTemp, maxTemp);
 
-    // console.log(dates, minTemp, avgTemp, maxTemp);
-
-    let tminTrace = {
+    let tmin = {
       type: "scatter",
-      mode: "lines+markers",
-      name: "Min. Temperature",
+      mode: "lines",
+      name: "Tmin",
       x: dates,
       y: minTemp,
-      hovertemplate: "%{y} F<extra>MINT</extra>",
-      marker: {
-        color: "#1773cf",
-        size: 7,
-      },
       line: {
         color: "#1773cf",
-        width: 3,
       },
     };
 
-    let tavgTrace = {
+    let tavg = {
       type: "scatter",
-      mode: "lines+markers",
-      name: "Avg. Temperature",
+      mode: "lines",
+      name: "Tavg",
       x: dates,
       y: avgTemp,
-      hovertemplate: "%{y} F<extra>AVGT</extra>",
-      marker: {
-        color: "#009933",
-        size: 7,
-      },
       line: {
-        color: "#009933",
-        width: 3,
+        color: "#cc9900",
       },
     };
 
-    let tmaxTrace = {
+    let tmax = {
       type: "scatter",
-      name: "Max. Temperature",
+      mode: "lines",
+      name: "Tmax",
       x: dates,
       y: maxTemp,
-      hovertemplate: "%{y} F<extra>MAXT</extra>",
-      mode: "lines+markers",
-      marker: {
-        color: "#ff0000",
-        size: 7,
-      },
       line: {
         color: "#ff0000",
-        width: 3,
       },
     };
 
-    let data = [tmaxTrace, tavgTrace, tminTrace];
+    let data = [tmin, tavg, tmax];
 
-    let layout = {
+    var layout = {
       width: 900,
       height: 600,
-      title: `Daily Normals (last 10 years) for Trip from <b>${startd}</b> to <b>${endd}</b> <br><b> ${city}</b>`,
+      title: `${city}: Daily Normals for ${startd} - ${endd}`,
       xaxis: {
-        autorange: true,
-        showgrid: true,
-        // range: [dates[0], dates[dates.length - 1]],
+        range: [dates[0], dates[dates.length - 1]],
         type: "date",
       },
       yaxis: {
-        title: "Temperature (F)",
         autorange: true,
         type: "linear",
-        showgrid: true,
       },
-      shapes: [
-        {
-          type: "rect",
-          xref: "x",
-          yref: "paper",
-          x0: startd,
-          y0: 0,
-          x1: endd,
-          y1: 1,
-          fillcolor: "#d3d3d3",
-          opacity: 0.4,
-          line: {
-            width: 0,
-          },
-        },
-      ],
     };
 
     Plotly.newPlot("plot", data, layout);
@@ -141,3 +112,6 @@ function weatherHistoryPlot(city, startd, endd) {
 }
 
 weatherHistoryPlot(city, startd, endd);
+
+// // Add event listener for submit button
+// d3.select("#submit").on("click", handleSubmit);
