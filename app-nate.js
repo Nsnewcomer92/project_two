@@ -6,11 +6,15 @@ var inbound = "ORD-sky";
 var outboundDate = "2020-09-01";
 var inboundDate = "2020-12-31";
 
-$("#destinations").change(function (e) {
+$("#submit").click(function (e) {
 	inbound = $("#destinations").children("option").filter(":selected").val();
-	//console.log("Inbound", inbound)
+	console.log("Inbound", inbound)
 	var inboundformatted = inbound.split("-");
 	//console.log(inboundformatted)
+	outboundDate = $("#startd").val();
+	console.log("Outbound Date", outboundDate)
+	outboundDate = $("#endd").val();
+	console.log("Inbound Date", outboundDate)
 
 	var settings = {
 		"async": true,
@@ -52,35 +56,10 @@ $("#destinations").change(function (e) {
 		};
 		Plotly.newPlot('flightcost', trace1, layout);
 
-		var xAxis2 = [];
-		var yAxis2 = [];
-		$.each(response.Quotes, function (index, value) {
-			yAxis2.push(value.MinPrice);
-		});
-		//console.log(yAxis2);
-
-		$.each(response.Quotes, function (index, value) {
-			xAxis2.push(value.OutboundLeg.CarrierIds[0]);
-		});
-		//console.log(xAxis2);
-
-		var trace2 = [
-			{
-				x: xAxis2,
-				y: yAxis2,
-				type: 'bar'
-			}
-		];
-		var layout2 = {
-			title: `Cheapest Flights from IND to ${inboundformatted[0]}`,
-			xaxis: { title: "Airline" },
-			yaxis: { title: "Minimum Price" }
-		};
-
-		Plotly.newPlot('flightcost2', trace2, layout2);
 
 
 		//console.log(JSON.stringify(response, null, 2))
 
 	});
 });
+
