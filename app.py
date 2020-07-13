@@ -38,7 +38,7 @@ Measurement = Base.classes.measurement
 # use decorators to link the function to a url
 @app.route('/')
 def home():
-    return render_template('index_dz.html')  # render a template
+    return render_template('index.html')  # render a template
 
 
 @app.route("/api/<city>/<startd>/<endd>")
