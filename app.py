@@ -37,10 +37,15 @@ Base.prepare(db.engine, reflect=True)
 # Save references to our table
 Measurement = Base.classes.measurement
 
+# Mapbox api key from .env
+API_KEY = os.getenv('API_KEY')
+# Google map api key from .env
+g_key = os.getenv('g_key')
+
 # use decorators to link the function to a url
 @app.route('/')
 def home():
-    return render_template('index.html')  # render a template
+    return render_template('index.html', key=API_KEY)  # render a template
 
 # Plotting temperature daily normals 
 @app.route("/api/<city>/<startd>/<endd>")
@@ -115,8 +120,6 @@ def temp_normals(city, startd, endd):
 # Map local attractions 
 @app.route("/api/<city>")
 def scrape(city):
-    # Google map key
-    g_key = 'AIzaSyAWPTrJVFKBWznMcUtYIYWc7IZi4eJIjgA'
     
     # Create URL
     baseURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
