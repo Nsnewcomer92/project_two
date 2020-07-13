@@ -1,5 +1,7 @@
 import os
 import datetime as dt
+import json
+import requests
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -40,7 +42,7 @@ Measurement = Base.classes.measurement
 def home():
     return render_template('index.html')  # render a template
 
-
+# Plotting temperature daily normals 
 @app.route("/api/<city>/<startd>/<endd>")
 def temp_normals(city, startd, endd):
     '''Return a JSON list of daily normals (the averages for tmin, tmax, and tavg for 
@@ -109,6 +111,26 @@ def temp_normals(city, startd, endd):
     main_dict["dataset"] = wh_dict
 
     return jsonify(main_dict)
+
+# Map local attractions 
+@app.route("/api/<city>")
+def scrape(city):
+    # Google map key
+    g_key = 'AIzaSyAWPTrJVFKBWznMcUtYIYWc7IZi4eJIjgA'
+    
+    # Create URL
+    baseURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
+    attraction = "museums"
+    location = "+".join(city.split(" "))
+     
+    url = baseURL + 'query=' + location + '+' + attraction + '&language=en&key=' + g_key
+    
+    # Create a dictionary with retrieved data and jsonify
+    dataset = {}
+    data = requests.get(url).json()
+    dataset['data'] = data      
+    
+    return jsonify(dataset)
 
 
 # start the server with the 'run()' method

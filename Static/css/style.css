@@ -10,6 +10,17 @@ body {
   margin: 0;
 }
 
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#map {
+  width: 800px;
+  height: 400px;
+}
+
+
 /* The wrapper contains all of the page's content besides the footer, which is pushed to the bottom of the page */
 
 .navbar {

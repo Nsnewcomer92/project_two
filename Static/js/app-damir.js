@@ -90,7 +90,7 @@ function weatherHistoryPlot(city, startd, endd) {
     let layout = {
       width: 900,
       height: 600,
-      title: `Daily Normals (10 year average) from <b>${startd}</b> to <b>${endd}</b> <br><b> ${city}</b>`,
+      title: `Daily Normals (last 10 years) for Trip from <b>${startd}</b> to <b>${endd}</b> <br><b> ${city}</b>`,
       xaxis: {
         autorange: true,
         showgrid: true,
@@ -125,23 +125,80 @@ function weatherHistoryPlot(city, startd, endd) {
   });
 }
 
-// Function ...
+// Function to map local attractions
 //===========================
-//function functionOne(city, startd, endd) {
-  //
-//}
+function mapAttractions(city) {
+  const url = "/api/" + city;
+  console.log(url)
+  // Grab the data .with d3
+  // d3.json(url, function (response) {
+  d3.json(url).then(function (response) { 
+    console.log(response);
+    
+    let res = response.data.results;
+    console.log(res);
+  
+    // define coordinates for our cities
+    const coordinates = {
+      'Chicago': [41.8781, -87.6298],
+      'Indianapolis': [39.7684, -86.1581],
+      'Las Vegas': [36.1699, -115.1398],
+      'Los Angeles': [34.0522, -118.2437],
+      'New York City': [40.7128, -74.0059],
+      'Washington': [38.9072, -77.0369]
+    }
+    // Function to get a coordinate for a selected city
+    function getCoordinate(city) {
+      return coordinates[city];
+    }
 
-// Function ...
-//===========================
-//function functionTwo(city, startd, endd) {
-  //
-//}
+    // Create a map object
+    var myMap = L.DomUtil.get('map');
+      if(myMap != null){
+        myMap._leaflet_id = null;
+      }
 
-// Function ...
-//===========================
-//function functionThree(city, startd, endd) {
-  //
-//}
+
+    myMap = L.map("map", {
+      center: getCoordinate(city),
+      zoom: 13
+    });
+
+  
+    
+    // Add a tile layer
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: API_KEY
+    }).addTo(myMap);
+
+
+    // Loop through all results
+    for (i = 0; i < res.length; i++) {
+      
+      var name = res[i].name;
+      
+      // Create an array for attraction coordinates
+      var lat = res[i].geometry.location.lat;
+      var lng = res[i].geometry.location.lng;
+      var location = [lat, lng];
+  
+      var status = res[i].business_status;
+      var address = res[i].formatted_address;
+  
+    
+      // Create one marker for each attraction, bind a popup containing useful information
+      L.marker(location)
+        .bindPopup("<h5>" + name + "</h5> <hr> <h6> " + address + "<br> <b>Status: </b>" + status + "</h6>")
+        .addTo(myMap);
+    }
+  }); 
+}
+
 
 // Function for initial load
 //===========================
@@ -155,12 +212,11 @@ function init() {
   // End date is in a week
   let endDate = new Date(today.setDate(today.getDate() + 7));
   let initEndd = endDate.toISOString().split("T")[0];
+  
+  console.log("INIT:", initCity, initStartd, initEndd);
 
-  //functionOne(initCity, initStartd, initEndd);
 
-  //functionTwo(initCity, initStartd, initEndd);
-
-  //functionThree(initCity, initStartd, initEndd);
+  mapAttractions(initCity);
 
   weatherHistoryPlot(initCity, initStartd, initEndd);
 }
@@ -168,14 +224,15 @@ function init() {
 // Function to run after every change
 //===========================
 function optionChanged() {
-  //
-  // functionOne(newCity, newStartd, newEndd);
-  // functionTwo(newCity)(newCity, newStartd, newEndd);
-  // functionThree(newCity, newStartd, newEndd);
-  var destinationSelect = document.getElementById("destinations");
-  var destinations = destinationSelect.options[destinationSelect.selectedIndex].innerText;
-  var startd = document.getElementById("startd").value;
-  var endd = document.getElementById("endd").value;
+  
+  let destinationSelect = document.getElementById("destinations");
+  let destinations = destinationSelect.options[destinationSelect.selectedIndex].innerText;
+  let startd = document.getElementById("startd").value;
+  let endd = document.getElementById("endd").value;
+
+  console.log("Changed:", destinations, startd, endd);
+
+  mapAttractions(destinations);
   weatherHistoryPlot(destinations, startd, endd);
 }
 
