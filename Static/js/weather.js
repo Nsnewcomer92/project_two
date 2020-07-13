@@ -1,22 +1,7 @@
-// /**
-
-//  */
-
-// After initial load
-// let city = "Las Vegas";
-// let startd = "2020-07-13";
-// let endd = "2020-07-20";
-
-// Initial load
-let city = "Indianapolis";
-// Today is start date
-let today = new Date();
-let startd = today.toISOString().split("T")[0];
-
-// End date is in a week
-let endDate = new Date(today.setDate(today.getDate() + 7));
-let endd = endDate.toISOString().split("T")[0];
-
+//
+// Function to plot daily normals for +/- 1 week extended range
+//  from last 10 years
+//===========================
 function weatherHistoryPlot(city, startd, endd) {
   const url = "/api/" + city + "/" + startd + "/" + endd;
   console.log(url);
@@ -105,7 +90,7 @@ function weatherHistoryPlot(city, startd, endd) {
     let layout = {
       width: 900,
       height: 600,
-      title: `Daily Normals (last 10 years) for Trip from <b>${startd}</b> to <b>${endd}</b> <br><b> ${city}</b>`,
+      title: `Daily Normals (10 year average) from <b>${startd}</b> to <b>${endd}</b> <br><b> ${city}</b>`,
       xaxis: {
         autorange: true,
         showgrid: true,
@@ -140,4 +125,60 @@ function weatherHistoryPlot(city, startd, endd) {
   });
 }
 
-weatherHistoryPlot(city, startd, endd);
+// Function ...
+//===========================
+//function functionOne(city, startd, endd) {
+  //
+//}
+
+// Function ...
+//===========================
+//function functionTwo(city, startd, endd) {
+  //
+//}
+
+// Function ...
+//===========================
+//function functionThree(city, startd, endd) {
+  //
+//}
+
+// Function for initial load
+//===========================
+function init() {
+  // Set variables for initial load
+  let initCity = "Indianapolis";
+  // Today is a start date
+  let today = new Date();
+  let initStartd = today.toISOString().split("T")[0];
+
+  // End date is in a week
+  let endDate = new Date(today.setDate(today.getDate() + 7));
+  let initEndd = endDate.toISOString().split("T")[0];
+
+  //functionOne(initCity, initStartd, initEndd);
+
+  //functionTwo(initCity, initStartd, initEndd);
+
+  //functionThree(initCity, initStartd, initEndd);
+
+  weatherHistoryPlot(initCity, initStartd, initEndd);
+}
+
+// Function to run after every change
+//===========================
+function optionChanged() {
+  //
+  // functionOne(newCity, newStartd, newEndd);
+  // functionTwo(newCity)(newCity, newStartd, newEndd);
+  // functionThree(newCity, newStartd, newEndd);
+  var destinationSelect = document.getElementById("destinations");
+  var destinations = destinationSelect.options[destinationSelect.selectedIndex].innerText;
+  var startd = document.getElementById("startd").value;
+  var endd = document.getElementById("endd").value;
+  weatherHistoryPlot(destinations, startd, endd);
+}
+
+// Initialize the dashboard
+//===========================
+init();
