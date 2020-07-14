@@ -8,7 +8,7 @@ To combine different data sources to plan a trip to a list of 5 US destinations.
 
 - Flight data: https://rapidapi.com/skyscanner/api/skyscanner-flight-search
 - Historical weather data:  Visual Crossing Corporation](https://www.visualcrossing.com/</br>
--Google Maps for Museum Data: https://maps.googleapis.com/maps/api/place/textsearch/json?
+- Google Maps for Museum Data: https://maps.googleapis.com/maps/api/place/textsearch/json?
 
 
 
