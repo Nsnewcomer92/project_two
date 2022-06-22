@@ -14,7 +14,7 @@ MarkupSafe @ file:///C:/ci/markupsafe_1594405949945/work
 mkl-fft==1.1.0
 mkl-random==1.1.1
 mkl-service==2.3.0
-numpy==1.18.5
+numpy==1.22.0
 pandas @ file:///C:/ci/pandas_1592841747005/work
 pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
 pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1594392929924/work
